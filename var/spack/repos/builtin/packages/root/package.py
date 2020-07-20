@@ -82,6 +82,8 @@ class Root(CMakePackage):
             description='Enable Aqua interface')
     variant('davix', default=True,
             description='Compile with external Davix')
+    variant('dataframe', default=True,
+            description='Enable ROOT Dataframes')
     variant('emacs', default=False,
             description='Enable Emacs support')
     variant('examples', default=True,
@@ -346,6 +348,7 @@ class Root(CMakePackage):
                 ['cling', True],
                 ['cocoa', 'aqua'],
                 ['davix'],
+                ['dataframe', True],
                 ['dcache', False],
                 ['fftw3', 'fftw'],
                 ['fitsio', 'fits'],
