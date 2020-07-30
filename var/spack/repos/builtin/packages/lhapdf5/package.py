@@ -27,20 +27,20 @@ class Lhapdf5(AutotoolsPackage):
     version('5.8.0', sha256='8381ea5f785dde95772a2b6d5890f1cb72012e223e6861823fd81b09eedaa7a3')
     version('5.7.1', sha256='40529629351598317fbf7b5905661e51b23778019d50451eee78d7b1118e2559')
 
-    variant('python2', default=False,
-            description="Enable Python2 extension")
+    variant('python', default=False,
+            description="Enable python extension")
 
-    depends_on('python@2.3:2.7.99', when='+python2')
+    depends_on('python@2.3:2.7.99', when='+python')
 
     def setup_build_environment(self, env):
         env.append_flags('FFLAGS', '-std=legacy')
-        if self.spec.satisfies('+python2'):
-            env.append_flags(
-                'PYTHON',
-                join_path(self.spec['python'].prefix.bin, 'python'))
+        if self.spec.satisfies('+python'):
+            env.append_flags('PYTHON', self.spec['python'].command.path)
 
     def configure_args(self):
         args = []
-        if self.spec.satisfies('-python2'):
+        if '+python' in self.spec:
+            args.append('--enable-pyext')
+        else:
             args.append('--disable-pyext')
         return args
