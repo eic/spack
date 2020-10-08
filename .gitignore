@@ -38,3 +38,6 @@ lib/spack/spack/test/.cache
 # VSCode files
 .vscode
 .devcontainer
+
+# Cvmfs files
+.cvmfscatalog
