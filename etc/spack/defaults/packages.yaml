@@ -49,5 +49,4 @@ packages:
       sycl: [hipsycl]
     permissions:
       read: world
-      write: group
-      group: eic
+      write: user
