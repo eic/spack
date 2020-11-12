@@ -121,6 +121,7 @@ class Acts(CMakePackage):
     conflicts('+pythia8', when='@:0.22')
     conflicts('+pythia8', when='-examples')
     conflicts('+tgeo', when='-identification')
+    conflicts('%gcc@:7', when='@0.23:')
 
     def cmake_args(self):
         spec = self.spec
