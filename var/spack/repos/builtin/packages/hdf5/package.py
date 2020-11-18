@@ -242,6 +242,10 @@ class Hdf5(AutotoolsPackage):
         extra_args += self.enable_or_disable('fortran')
         extra_args += self.enable_or_disable('java')
 
+        cflags = []
+        cxxflags = []
+        fcflags = []
+
         api = self.spec.variants['api'].value
         if api != 'none':
             extra_args.append('--with-default-api-version=' + api)
@@ -287,11 +291,9 @@ class Hdf5(AutotoolsPackage):
             extra_args.append('--enable-static-exec')
 
         if '+pic' in self.spec:
-            extra_args.extend([
-                'CFLAGS='   + self.compiler.cc_pic_flag,
-                'CXXFLAGS=' + self.compiler.cxx_pic_flag,
-                'FCFLAGS='  + self.compiler.fc_pic_flag,
-            ])
+            cflags.append(self.compiler.cc_pic_flag)
+            cxxflags.append(self.compiler.cxx_pic_flag)
+            fcflags.append(self.compiler.fc_pic_flag)
 
         if '+mpi' in self.spec:
             # The HDF5 configure script warns if cxx and mpi are enabled
@@ -309,6 +311,14 @@ class Hdf5(AutotoolsPackage):
                 extra_args.append('FC=%s' % self.spec['mpi'].mpifc)
 
         extra_args.append('--with-zlib=%s' % self.spec['zlib'].prefix)
+
+        if self.spec.satisfies('@1.8.15:1.8.21 %gcc@10:'):
+            fcflags.append('-fallow-argument-mismatch')
+            fcflags.append('-fallow-invalid-boz')
+
+        extra_args.append('CFLAGS={0}'.format(' '.join(cflags)))
+        extra_args.append('CXXFLAGS={0}'.format(' '.join(cxxflags)))
+        extra_args.append('FCFLAGS={0}'.format(' '.join(fcflags)))
 
         return extra_args
 
