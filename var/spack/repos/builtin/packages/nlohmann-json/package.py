@@ -28,6 +28,9 @@ class NlohmannJson(CMakePackage):
     variant('single_header', default=True,
             description='Use amalgamated single-header')
 
+    patch('https://github.com/nlohmann/json/pull/2034.diff', when='@:3.7.4 %gcc@10:',
+          sha256='5b56fc5c913f684e57e99f4c66001835ae58cbcc7978131ee6ce0072b72ddcbd')
+
     depends_on('cmake@3.8:', type='build')
 
     # requires mature C++11 implementations
