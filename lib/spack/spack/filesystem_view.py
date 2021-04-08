@@ -377,7 +377,7 @@ class YamlFilesystemView(FilesystemView):
 
         ignore = ignore or (lambda f: False)
         ignore_file = match_predicate(
-            self.layout.hidden_file_paths, ignore)
+            self.layout.hidden_file_paths, r'cvmfscatalog', ignore)
 
         # check for dir conflicts
         conflicts = tree.find_dir_conflicts(view_dst, ignore_file)
