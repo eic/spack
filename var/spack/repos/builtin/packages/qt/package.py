@@ -335,6 +335,10 @@ class Qt(Package):
         filter_file('^QMAKE_LFLAGS_NOUNDEF .*', 'QMAKE_LFLAGS_NOUNDEF = ',
                     conf('g++-unix'))
 
+        # Don't use recent glibc calls on old kernels
+        filter_file('MINLINUX_MINOR        1[67]', 'MINLINUX_MINOR        10',
+                    'qtbase/src/corelib/global/minimum-linux_p.h')
+
         if self.spec.satisfies('@4'):
             # The gnu98 flag is necessary to build with GCC 6 and other modern
             # compilers (see http://stackoverflow.com/questions/10354371/);
