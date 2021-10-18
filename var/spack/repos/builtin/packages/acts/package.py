@@ -140,7 +140,7 @@ class Acts(CMakePackage, CudaPackage):
     # Build dependencies
     # FIXME: Use spack's vecmem package once there is one
     # (https://github.com/acts-project/acts/pull/998)
-    depends_on('autodiff @5.11:', when='@4.10: -autodiff')
+    depends_on('autodiff @5.11:', when='@1.02: +autodiff')
     depends_on('boost @1.62:1.69 +program_options +test', when='@:0.10.3')
     depends_on('boost @1.71: +filesystem +program_options +test', when='@0.10.4:')
     depends_on('cmake @3.14:', type='build')
@@ -158,7 +158,7 @@ class Acts(CMakePackage, CudaPackage):
     depends_on('py-pytest', when='+python +unit_tests')
     depends_on('root @6.10: cxxstd=14', when='+tgeo @:0.8.0')
     depends_on('root @6.20: cxxstd=17', when='+tgeo @0.8.1:')
-    depends_on('vecmem')
+    depends_on('vecmem@0.4: +sycl', when='+sycl')
 
     # Some variant combinations do not make sense
     conflicts('+autodiff', when='@:1.01')
