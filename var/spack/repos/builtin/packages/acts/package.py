@@ -138,7 +138,7 @@ class Acts(CMakePackage, CudaPackage):
     variant('analysis', default=False, description='Build analysis applications in the examples')
 
     # Build dependencies
-    depends_on('autodiff @5.11:', when='@4.10: +autodiff')
+    depends_on('autodiff @5.11:', when='@1.02: +autodiff')
     depends_on('boost @1.62:1.69 +program_options +test', when='@:0.10.3')
     depends_on('boost @1.71: +filesystem +program_options +test', when='@0.10.4:')
     depends_on('cmake @3.14:', type='build')
