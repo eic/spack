@@ -126,7 +126,7 @@ class Acts(CMakePackage, CudaPackage):
     variant('json', default=False, description='Build the Json plugin')
     variant('legacy', default=False, description='Build the Legacy package')
     # FIXME: Cannot build ONNX plugin as Spack doesn't have an ONNX runtime
-    # FIXME: Cannot build SyCL plugin yet as Spack doesn't have SyCL support
+    variant('sycl', default=False, description='Build the SyCL plugin')
     variant('tgeo', default=False, description='Build the TGeo plugin')
     variant('alignment', default=False, description='Build the alignment package')
 
@@ -230,6 +230,7 @@ class Acts(CMakePackage, CudaPackage):
             plugin_cmake_variant("JSON", "json"),
             cmake_variant(unit_tests_label, "unit_tests"),
             cmake_variant(legacy_plugin_label, "legacy"),
+            plugin_cmake_variant("SYCL", "sycl"),
             plugin_cmake_variant("TGEO", "tgeo"),
             cmake_variant("ALIGNMENT", "alignment")
         ]
