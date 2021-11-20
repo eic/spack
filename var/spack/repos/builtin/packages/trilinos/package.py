@@ -295,6 +295,7 @@ class Trilinos(CMakePackage, CudaPackage):
     depends_on('hypre~internal-superlu~int64', when='+hypre')
     depends_on('kokkos-nvcc-wrapper', when='+wrapper')
     depends_on('lapack')
+    # depends_on('perl', type=('build',)) # TriBITS finds but doesn't use...
     depends_on('libx11', when='+x11')
     depends_on('matio', when='+exodus')
     depends_on('metis', when='+zoltan')
@@ -438,20 +439,18 @@ class Trilinos(CMakePackage, CudaPackage):
         options.extend([
             define('Trilinos_VERBOSE_CONFIGURE', False),
             define_from_variant('BUILD_SHARED_LIBS', 'shared'),
-            define_from_variant("CMAKE_CXX_STANDARD", "cxxstd"),
-            define_trilinos_enable('TESTS', False),
-            define_trilinos_enable('EXAMPLES', False),
+            define_from_variant('CMAKE_CXX_STANDARD', 'cxxstd'),
+            define_trilinos_enable('ALL_OPTIONAL_PACKAGES', False),
+            define_trilinos_enable('ALL_PACKAGES', False),
             define_trilinos_enable('CXX11', True),
             define_trilinos_enable('DEBUG', 'debug'),
+            define_trilinos_enable('EXAMPLES', False),
+            define_trilinos_enable('SECONDARY_TESTED_CODE', True),
+            define_trilinos_enable('TESTS', False),
             define_trilinos_enable('Fortran'),
             define_trilinos_enable('OpenMP'),
             define_trilinos_enable('EXPLICIT_INSTANTIATION',
                                    'explicit_template_instantiation')
-            # The following can cause problems on systems that don't have
-            # static libraries available for things like dl and pthreads
-            # for example when trying to build static libs
-            # define_from_variant('TPL_FIND_SHARED_LIBS', 'shared')
-            # define('Trilinos_LINK_SEARCH_START_STATIC', '+shared' not in spec)
         ])
 
         # ################## Trilinos Packages #####################
@@ -563,7 +562,7 @@ class Trilinos(CMakePackage, CudaPackage):
             depspec = spec[spack_name]
             libs = depspec.libs
             options.extend([
-                define(trilinos_name + '_INCLUDE_DIRS', depspec.prefix.include),
+                define(trilinos_name + '_INCLUDE_DIRS', depspec.headers.directories),
                 define(trilinos_name + '_ROOT', depspec.prefix),
                 define(trilinos_name + '_LIBRARY_NAMES', libs.names),
                 define(trilinos_name + '_LIBRARY_DIRS', libs.directories),
@@ -631,10 +630,9 @@ class Trilinos(CMakePackage, CudaPackage):
                     spec['parmetis'].prefix.lib, spec['metis'].prefix.lib
                 ]),
                 define('ParMETIS_LIBRARY_NAMES', ['parmetis', 'metis']),
-                define('TPL_ParMETIS_INCLUDE_DIRS', [
-                    spec['parmetis'].prefix.include,
-                    spec['metis'].prefix.include
-                ]),
+                define('TPL_ParMETIS_INCLUDE_DIRS',
+                       spec['parmetis'].headers.directories +
+                       spec['metis'].headers.directories),
             ])
 
         if spec.satisfies('^superlu-dist@4.0:'):
