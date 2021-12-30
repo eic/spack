@@ -44,6 +44,8 @@ class Sherpa(AutotoolsPackage):
     variant('cxxstd',    default='11', values=_cxxstd_values, multi=False,
             description='Use the specified C++ standard when building')
 
+    variant('shared',     default=True, description='Build shared libraries')
+    variant('static',     default=False, description='Build static libraries')
     variant('analysis',   default=True, description='Enable analysis components')
     variant('mpi',        default=False, description='Enable MPI')
     variant('python',     default=False, description='Enable Python API')
@@ -94,9 +96,9 @@ class Sherpa(AutotoolsPackage):
 
     def configure_args(self):
         args = []
-        args.append('--enable-shared')
+        args.extend(self.enable_or_disable('shared'))
+        args.extend(self.enable_or_disable('static'))
         args.append('--enable-binreloc')
-        args.append('--enable-static')
         args.append('--enable-hepevtsize=200000')
         args.append('--with-sqlite3=' + self.spec['sqlite'].prefix)
         args.extend(self.enable_or_disable('mpi'))
