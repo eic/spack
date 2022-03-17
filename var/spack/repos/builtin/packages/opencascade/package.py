@@ -40,7 +40,7 @@ class Opencascade(CMakePackage):
     variant('rapidjson', default=False,
             description='Build with rapidjson')
 
-    depends_on('intel-tbb', when='+tbb')
+    depends_on('tbb',       when='+tbb')
     depends_on('vtk',       when='+vtk')
     depends_on('freeimage', when='+freeimage')
     depends_on('rapidjson', when='+rapidjson')

@@ -160,7 +160,7 @@ class Acts(CMakePackage, CudaPackage):
     depends_on('geant4', when='+geant4')
     depends_on('hepmc3 @3.2.1:', when='+hepmc3')
     depends_on('heppdt', when='+hepmc3 @:4.0')
-    depends_on('intel-tbb @2020.1:', when='+examples')
+    depends_on('tbb @2020.1:', when='+examples')
     depends_on('nlohmann-json @3.9.1:', when='@0.14: +json')
     depends_on('pythia8', when='+pythia8')
     depends_on('python', when='+python')

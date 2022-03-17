@@ -87,7 +87,7 @@ class Dd4hep(CMakePackage):
     depends_on('geant4@10.2.2:', when='+ddg4')
     depends_on('assimp@5.0.2:', when='+ddcad')
     depends_on('hepmc3', when="+hepmc3")
-    depends_on('intel-tbb', when='+tbb')
+    depends_on('tbb', when='+tbb')
     depends_on('lcio', when="+lcio")
     depends_on('edm4hep', when="+edm4hep")
     depends_on('py-pytest', type="test")
