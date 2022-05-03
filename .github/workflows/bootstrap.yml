@@ -127,7 +127,7 @@ jobs:
         run: |
           brew install tree
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
       - name: Bootstrap clingo
@@ -145,7 +145,7 @@ jobs:
         python-version: ['2.7', '3.5', '3.6', '3.7', '3.8', '3.9']
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
       - name: Setup repo and non-root user
