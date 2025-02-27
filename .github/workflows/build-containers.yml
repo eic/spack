@@ -63,7 +63,7 @@ jobs:
           git fetch --quiet --tags
           echo "tag=$(git tag --list --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)" | tee -a $GITHUB_OUTPUT
 
-      - uses: docker/metadata-action@369eb591f429131d6889c46b94e711f089e6ca96
+      - uses: docker/metadata-action@902fa8ec7d6ecbf8d84d538b9b233a880e428804
         id: docker_meta
         with:
           images: |
